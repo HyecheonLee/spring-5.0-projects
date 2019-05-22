@@ -30,18 +30,24 @@ public class ViewController {
         model.addAttribute("regions", lookupDao.getRegions());
         model.addAttribute("countries", countryDao.getCountries(params));
         model.addAttribute("count", countryDao.getCountriesCount(params));
+
         return "countries";
     }
 
     @GetMapping("/countries/{code}")
     public String countryDetail(@PathVariable String code, Model model) {
-        //Logic to Populate the country detail in model
+        model.addAttribute("c", countryDao.getCountryDetail(code));
         return "country";
     }
 
     @GetMapping("/countries/{code}/form")
     public String editCountry(@PathVariable String code, Model model) {
-        //Logic to call CountryDAO to update the country
+        model.addAttribute("c", countryDao.getCountryDetail(code));
+        model.addAttribute("cities", cityDao.getCities(code));
+        model.addAttribute("continents", lookupDao.getContinents());
+        model.addAttribute("regions", lookupDao.getRegions());
+        model.addAttribute("heads", lookupDao.getHeadOfStates());
+        model.addAttribute("govs", lookupDao.getGovernmentTypes());
         return "country-form";
     }
 
